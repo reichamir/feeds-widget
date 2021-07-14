@@ -4,26 +4,55 @@
     <link href="index.css" rel='stylesheet' type = 'text/css'>
 </head>
 <body>
+    <header>
+        <h1>Website!</h1>
+    </header>
+    
+
     <div class="page-container">
         <h3>Lorem Ipsum</h3>
         
         <article>
             <div class="article-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit dignissim lacus, vitae venenatis purus fermentum quis. Maecenas elementum dignissim eros vitae cursus. Nunc pulvinar odio vitae purus fringilla, non pretium eros mattis. Integer congue, velit non vehicula commodo, sapien justo vestibulum leo, vitae vehicula tortor metus eu est. Fusce ultrices auctor lectus quis rutrum. Praesent venenatis congue gravida. Maecenas pretium aliquet mollis. Quisque tempor non orci a ultrices. Praesent pellentesque congue sem, vitae rutrum tellus viverra ut. Donec elementum auctor suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur facilisis libero eu enim accumsan ornare. Mauris vitae mattis libero. Fusce viverra id diam quis aliquam. Nulla a fringilla velit.
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit dignissim lacus, vitae venenatis purus fermentum quis. Maecenas elementum dignissim eros vitae cursus. Nunc pulvinar odio vitae purus fringilla, non pretium eros mattis. Integer congue, velit non vehicula commodo, sapien justo vestibulum leo, vitae vehicula tortor metus eu est. Fusce ultrices auctor lectus quis rutrum. Praesent venenatis congue gravida. Maecenas pretium aliquet mollis. Quisque tempor non orci a ultrices. Praesent pellentesque congue sem, vitae rutrum tellus viverra ut. Donec elementum auctor suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur facilisis libero eu enim accumsan ornare. Mauris vitae mattis libero. Fusce viverra id diam quis aliquam. Nulla a fringilla velit.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit dignissim lacus, vitae venenatis purus fermentum quis. Maecenas elementum dignissim eros vitae cursus. Nunc pulvinar odio vitae purus fringilla, non pretium eros mattis. Integer congue, velit non vehicula commodo, sapien justo vestibulum leo, vitae vehicula tortor metus eu est. Fusce ultrices auctor lectus quis rutrum. Praesent venenatis congue gravida. Maecenas pretium aliquet mollis. Quisque tempor non orci a ultrices. Praesent pellentesque congue sem, vitae rutrum tellus viverra ut. Donec elementum auctor suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur facilisis libero eu enim accumsan ornare. Mauris vitae mattis libero. Fusce viverra id diam quis aliquam. Nulla a fringilla velit.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit dignissim lacus, vitae venenatis purus fermentum quis. Maecenas elementum dignissim eros vitae cursus. Nunc pulvinar odio vitae purus fringilla, non pretium eros mattis. Integer congue, velit non vehicula commodo, sapien justo vestibulum leo, vitae vehicula tortor metus eu est. Fusce ultrices auctor lectus quis rutrum. Praesent venenatis congue gravida. Maecenas pretium aliquet mollis. Quisque tempor non orci a ultrices. Praesent pellentesque congue sem, vitae rutrum tellus viverra ut. Donec elementum auctor suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur facilisis libero eu enim accumsan ornare. Mauris vitae mattis libero. Fusce viverra id diam quis aliquam. Nulla a fringilla velit.
+                </p>
             </div>
 
-            <div id="feedsContainerTop"></div>
+            <div id="feedsContainerTop">
+                <h4>Feeds for you</h4>
+            </div>
         </article>
 
-        <div id="feedsContainerBottom"></div>
+        <div id="feedsContainerBottom">
+            <h4>Feeds for you</h4>
+        </div>
     </div>
 
     <script>
         (function(scriptTagId, scriptSrc, cssTagId, cssHref, onLoadCallback){
-            loadJsFile(scriptTagId, scriptSrc, onLoadCallback);
-			loadCssFile(cssTagId, cssHref);
+            var onFileLoaded = (function allDependenciesLoadedHandler(onLoadCallback) {
+                var loadedFileCount = 0;
 
-            function loadJsFile(scriptTagId, scriptSrc, onLoadCallback) {
+                return function() {
+                    loadedFileCount++;
+                    var isAllDependenciesLoaded = loadedFileCount == 2;
+                    if (isAllDependenciesLoaded) {
+                        onLoadCallback();
+                    } 
+                }
+            })(onLoadCallback);
+
+            loadJsFile(scriptTagId, scriptSrc, onFileLoaded);
+			loadCssFile(cssTagId, cssHref, onFileLoaded);
+
+            function loadJsFile(scriptTagId, scriptSrc, onFileLoaded) {
                 if (document.getElementById(scriptTagId)) {
                     return;
                 }
@@ -34,21 +63,10 @@
                 script.type = "text/javascript";
                 document.body.appendChild(script);
 
-                if (script.readyState) {  
-                    script.onreadystatechange = function(){
-                        if (script.readyState == "loaded" || script.readyState == "complete"){
-                            script.onreadystatechange = null;
-                            onLoadCallback();
-                        }
-                    };
-                } else {  
-                    script.onload = function(){
-                        onLoadCallback();
-                    };
-                }
+                observeFileLoad(script, onFileLoaded);
             }
 
-            function loadCssFile(cssTagId, cssHref) {
+            function loadCssFile(cssTagId, cssHref, onFileLoaded) {
                 if (document.getElementById(cssTagId)) {
                     return;
                 }
@@ -58,11 +76,27 @@
                 link.type = 'text/css';
                 link.href = cssHref;
                 document.body.appendChild(link);
+
+                observeFileLoad(link, onFileLoaded);
             }
             
-        }('feedsWidgetScript', '../dist/js/bundle.js', 'feedsWidgetStyle', '../dist/style/main.css', onLoadWidgetScript));
+            function observeFileLoad(file, onFileLoadedCallback) {
+                if (file.readyState) {  
+                    file.onreadystatechange = function(){
+                        if (file.readyState == "loaded" || file.readyState == "complete"){
+                            file.onreadystatechange = null;
+                            onFileLoadedCallback();
+                        }
+                    };
+                } else {  
+                    file.onload = function(){
+                        onFileLoadedCallback();
+                    };
+                }
+            }
+        }('feedsWidgetScript', '../dist/js/bundle.js', 'feedsWidgetStyle', '../dist/style/main.css', onWidgetLoad));
 
-        function onLoadWidgetScript() {
+        function onWidgetLoad() {
             var feedsWidget = new feedsWidgetNs.feedsWidget('taboola-templates', 'f9040ab1b9c802857aa783c469d0e0ff7e7366e4', '214321562187');
             
             feedsWidget.render('feedsContainerTop', 2, 'column');

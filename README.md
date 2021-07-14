@@ -1,9 +1,11 @@
 # feeds-widget-amir
-For running the widget upload external-site/index.html file
+Entry Page: external-site/index.html.
 
 ## feeds-widget folder 
-Contains the feeds-widget code
+Contains the feeds-widget code.
 ## dist folder
-Contains the deploy files
+Contains the widget deploy files.
 ## external-site folder
-Contains site that host the widget
+Contains site that host the widget.
+The widget files downloaded from the dist folder.
+

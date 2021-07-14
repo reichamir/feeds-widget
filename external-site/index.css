@@ -1,3 +1,27 @@
+body {
+    margin: 0px 0px 50px 0px;
+}
+
+header {
+    background: #95DFA9;
+    color: white;
+    height: 80px;
+    padding-top: 40px;
+    padding-left: 40px;
+    margin-top: 0px;
+    border-bottom: 10px solid #EEF5F0; 
+}
+
+header > h1 {
+    margin-top: 0px;
+}
+
+h4 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+
 .page-container {
     width: 100%;
     max-width: 1400px;
