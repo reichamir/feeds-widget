@@ -1,10 +1,6 @@
 var feedsWidgetNs = feedsWidgetNs || {};
 feedsWidgetNs.feedFactory = function() {
-    return {
-        create: create.bind(this)
-    };
-
-    function create(feedResponse) {
+    this.create = function(feedResponse) {
         var feed;
         var thumbnailUrl = getThumbnailUrl(feedResponse.thumbnail);
         

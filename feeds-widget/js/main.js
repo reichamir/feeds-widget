@@ -4,11 +4,7 @@ feedsWidgetNs.feedsWidget = function(publisherId, apiKey, sourceId) {
     this.apiKey = apiKey;
     this.sourceId = sourceId;
 
-    return {
-        render: render.bind(this)
-    };
-
-    function render(feedsContainerElementId, feedsCount, feedsViewType) {
+    this.render = function(feedsContainerElementId, feedsCount, feedsViewType) {
         getFeeds(window.innerWidth, this.publisherId, this.apiKey, this.sourceId, feedsCount, onGetFeedsResolved, onGetFeedsRejected);
         
         function onGetFeedsResolved(feeds) {

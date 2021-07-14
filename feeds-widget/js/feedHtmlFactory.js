@@ -1,10 +1,6 @@
 var feedsWidgetNs = feedsWidgetNs || {};
 feedsWidgetNs.feedHtmlFactory = function() {
-    return {
-        create: create.bind(this) 
-    };
-
-    function create(feedViewType, feedData) {
+    this.create = function(feedViewType, feedData) {
         var feedView;
         switch(feedViewType) {
             case feedsWidgetNs.FeedViewTypes.column: 
@@ -12,9 +8,6 @@ feedsWidgetNs.feedHtmlFactory = function() {
                 break;
             case feedsWidgetNs.FeedViewTypes.twoColumns: 
                 feedView = getTwoColumnsView(feedData);
-                break;
-            case feedsWidgetNs.FeedViewTypes.imageCaption: 
-                feedView = getImageCapationView(feedData);
                 break;
             default:
                 throw 'Unknown feed view type: ' + feedResponse.origin; 
